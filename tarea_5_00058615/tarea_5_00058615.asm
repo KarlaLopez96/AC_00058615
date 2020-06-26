@@ -17,25 +17,50 @@ section .text
     mov     bx, 50d
 	call 	linea_h
 
-	mov	si, 25d ; X -> Columna, linea vertical 1
+	mov	    si, 25d ; X -> Columna, linea vertical 1
 	mov 	di, 25d ; Y -> Fila
     mov     bx, 180d
 	call 	linea_v
 
-    mov	si, 50d ; X -> Columna, linea vertical 2
+    mov	    si, 50d ; X -> Columna, linea vertical 2
 	mov 	di, 25d ; Y -> Fila
     mov     bx, 85d
 	call 	linea_v
 
-    mov	si, 180d ; X -> Columna, linea vertical 2
-	mov 	di, 25d ; Y -> Fila
-    mov     bx, 50d
+    mov	    si, 50d ; X -> Columna, linea vertical 3
+	mov 	di, 120d ; Y -> Fila
+    mov     bx, 180d
 	call 	linea_v
 
-    mov	si, 85d ; X -> Columna, linea vertical 2
-	mov 	di, 25d ; Y -> Fila
-    mov     bx, 50d
+    mov	    si, 50d ; X -> Columna, linea diagonal 1
+	mov 	di, 120d ; Y -> Fila
+    mov     bx, 180d
 	call 	linea_d
+
+    mov	    si, 110d ; X -> Columna, linea diagonal 2
+	mov 	di, 25d ; Y -> Fila
+    mov     bx, 85d
+	call 	linea_2d
+
+    mov 	si, 110d ; X -> Columna, linea horizontal 3
+	mov 	di, 25d ; Y -> Fila
+    mov     bx, 135d
+	call 	linea_h
+
+    mov 	si, 110d ; X -> Columna, linea horizontal 4
+	mov 	di, 180d ; Y -> Fila
+    mov     bx, 135d
+	call 	linea_h
+
+    mov	    si, 58d ; X -> Columna, linea diagonal 3
+	mov 	di, 102d ; Y -> Fila
+    mov     bx, 180d
+	call 	linea_d
+
+    mov	    si, 135d ; X -> Columna, linea diagonal 4
+	mov 	di, 25d ; Y -> Fila
+    mov     bx, 102d
+	call 	linea_2d
 
 	call 	kb		; Utilizamos espera de alguna tecla
 
@@ -74,7 +99,7 @@ lupi_v:	mov 	cx, si ; Columna
 linea_d:
 lupi_d: mov 	cx, 0d ; Columna 
         add	    cx, si 
-        mov 	cx, 0d ; Fila
+        mov 	dx, 0d ; Fila
         add     dx, di
         call 	pixel
         inc 	si
@@ -82,6 +107,19 @@ lupi_d: mov 	cx, 0d ; Columna
         cmp 	di, bx ; Final
         jne 	lupi_d
         ret
+
+linea_2d:
+lupi_2d: mov 	cx, 0d ; Columna 
+        add	    cx, si 
+        mov 	dx, 0d ; Fila
+        add     dx, di
+        call 	pixel
+        sub 	si, 1h
+        inc     di
+        cmp 	di, bx ; Final
+        jne 	lupi_2d
+        ret
+
 
 kb: 	mov	ah, 00h
         int 	16h
